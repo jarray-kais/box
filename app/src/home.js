@@ -8,20 +8,46 @@ const UserForm = (props) => {
     const [password, setPassword] = useState(""); 
     const [confirmpassword, setConfirmpassword] = useState(""); 
     const [hasBeenSubmitted, setHasBeenSubmitted] = useState(false);  // default value of false
+    const [titleError, setTitleError] = useState("");
 
     const Createuser=(e)=> {
         e.preventDefault();
         setHasBeenSubmitted( true )
     }
-    const FormMessage=()=>{
-        if (hasBeenSubmitted) {
-            return "Thank you for submitting the form!"
-        }
-        else{
-            return "Welcome, please submit the form"
-        }
-
+    const handlefirstname=(e)=>{
+            setFirstname(e.target.value);
+            if (e.target.value.length <2 && e.target.value.length>0){
+                setTitleError("firstname must be 2 characters or longer!") 
+            }
+            else {setTitleError("")}
+            
     }
+    const handlelastname=(e)=>{
+            setLastname(e.target.value);
+        if (e.target.value.length <2 && e.target.value.length>0){
+            setTitleError("lastname must be 2 characters or longer!") 
+        }
+        else {setTitleError("")}
+        
+    }
+    const handleemail=(e)=>{
+            setEmail(e.target.value);
+        if (e.target.value.length <5 && e.target.value.length>0){
+            setTitleError("email must be 5 characters or longer!") 
+        }
+        else {setTitleError("")}
+        
+    }
+     const handlepassword=(e)=>{
+            setPassword(e.target.value);
+        if (e.target.value.length <8 && e.target.value.length>0){
+            setTitleError("password must be 8 characters or longer!") 
+        }
+        else {setTitleError("")}
+        
+    }
+
+
 
     const style1 = {
         width: "100%",
@@ -39,27 +65,56 @@ const UserForm = (props) => {
     }
     return <div>
     <form onSubmit={Createuser} style={style2}>
-    <h3 >{FormMessage()}</h3>
+    {
+        hasBeenSubmitted ?
+        <h3>Thank you for submitting the form!</h3>:
+        <h3>Welcome, please submit the form</h3>
+    }
         <div>
 
             <label>firstname: </label> 
-            <input type="text" value={firstname} onChange={ (e) => setFirstname(e.target.value) } style={style1}/>
+            <input type="text" value={firstname} onChange={ handlefirstname } style={style1}/>
+            {
+                    titleError ?
+                    <p>{ titleError }</p> :
+                    ''
+                }
         </div>
         <div>
             <label>lastname: </label> 
-            <input type="text" value={lastname} onChange={ (e) => setLastname(e.target.value) } style={style1}/>
+            <input type="text" value={lastname} onChange={ handlelastname } style={style1}/>
+            {
+                    titleError ?
+                    <p>{ titleError }</p> :
+                    ''
+                }
         </div>
         <div>
             <label>Email Address: </label> 
-            <input type="text" value={email} onChange={ (e) => setEmail(e.target.value) } style={style1}/>
+            <input type="email" value={email} onChange={ handleemail } style={style1}/>
+            {
+                    titleError ?
+                    <p>{ titleError }</p> :
+                    ''
+                }
         </div>
         <div>
             <label>Password: </label>
-            <input type="text" value={password} onChange={ (e) => setPassword(e.target.value) } style={style1}/>
+            <input type="password" value={password} onChange={ handlepassword } style={style1}/>
+            {
+                    titleError ?
+                    <p>{ titleError }</p> :
+                    ''
+                }
         </div>
         <div>
             <label>confirm Password: </label>
-            <input type="text" value={confirmpassword} onChange={ (e) => setConfirmpassword(e.target.value) } style={style1} />
+            <input type="password" value={confirmpassword} onChange={ handlepassword } style={style1} />
+            {
+                    titleError ?
+                    <p>{ titleError }</p> :
+                    ''
+                }
         </div>
         <input type="submit" value="Create User" />
     </form>
